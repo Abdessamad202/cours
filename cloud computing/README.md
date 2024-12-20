@@ -1,0 +1,2 @@
+# JSExercises
+THIS REPO ABOUT JS EXERCISES.
