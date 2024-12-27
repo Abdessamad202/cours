@@ -1,8 +1,8 @@
 <?php
 require('connexion.php');
-require('functions/add.php');
-require('functions/toggle.php');
-require('functions/delete.php');
+require('operations/add.php');
+require('operations/toggle.php');
+require('operations/delete.php');
 // var_dump($tasks)
 ?>
 <!DOCTYPE html>
@@ -60,5 +60,4 @@ require('functions/delete.php');
     </div>
   </div>
 </body>
-
 </html>
