@@ -1,24 +1,29 @@
 <?php
-namespace App;
+
 class Task {
-  private $conn;
-  public function __construct($conn) {
-    $this->conn = $conn;
-  }
-  public function add($title) {
-    $insertTaskQuery = $this->conn->prepare("INSERT INTO todo (title) VALUES (?);");
-    $insertTaskQuery->execute([$title]);
-  }
-  public function toggle($id) {
-    if ($id === '0') {
-      $updateTask = $this->conn->prepare('update todo set done=1 where id=?');
-    } else {
-      $updateTask = $this->conn->prepare('update todo set done=0 where id=?');
+    private $conn;
+
+    public function __construct($conn) { // Type hint for better code clarity
+        $this->conn = $conn;
     }
-    $updateTask->execute([$id]);
-  }
-  public function delete($id) {
-    $deletTaskQuery = $this->conn->prepare('DELETE FROM todo WHERE id=?');
-    $deletTaskQuery->execute([$id]);
-  }
+
+    public function add(string $title): void { // Type hint and return type
+        $stmt = $this->conn->prepare("INSERT INTO todo (title) VALUES (?)");
+        $stmt->execute([$title]);
+    }
+
+    public function toggle(int $id): void { // Type hint and return type
+        $stmt = $this->conn->prepare("UPDATE todo SET done = 1 - done WHERE id = ?"); // More efficient toggle
+        $stmt->execute([$id]);
+    }
+
+    public function delete(int $id): void { // Type hint and return type
+        $stmt = $this->conn->prepare("DELETE FROM todo WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
+    public function getAll(): array {
+        $stmt = $this->conn->query("SELECT * FROM todo");
+        return $stmt->fetch_all(MYSQLI_ASSOC);
+    }
 }
