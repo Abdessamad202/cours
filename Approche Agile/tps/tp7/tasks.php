@@ -1,11 +1,10 @@
 <?php
-$tasksQuery = $conn->query("select * from todo");
-$tasks = $tasksQuery->fetch_all(MYSQLI_ASSOC);
+$tasks = $task->getAll();
 foreach ($tasks as $task) {
   # code...
 ?>
   <div class="col-12">
-    <div class="alert alert-<?= $task['done'] === '1' ? 'success' : 'warning' ?> d-flex justify-content-between align-items-center" role="alert">
+    <div class="alert alert-<?= $task['done'] ? 'success' : 'warning' ?> d-flex justify-content-between align-items-center" role="alert">
       <div class="task">
         <?= $task['title'] ?>
       </div>
